@@ -1,0 +1,130 @@
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using System.Data.Entity;
+
+namespace LibraryApplication
+{
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    public partial class MainWindow : Window
+    {
+        public MainWindow()
+        {
+            InitializeComponent();
+        }
+
+        private void ButtonAddBook_Click(object sender, RoutedEventArgs e)
+        {
+
+
+// Pobierz dane z pól tekstowych
+string title = TextBoxTitle.Text;
+string author = TextBoxAuthor.Text;
+int year = int.Parse(TextBoxYear.Text);
+
+// Utwórz nową książkę
+var book = new Book { Title = title, Author = author, Year = year };
+
+// Dodaj książkę do bazy danych
+using (var context = new LibraryContext())
+{
+    context.Books.Add(book);
+    context.SaveChanges();
+}
+
+private void ButtonDeleteBook_Click(object sender, RoutedEventArgs e)
+{
+    // Pobierz ID książki do usunięcia
+    int id = int.Parse(TextBoxBookId.Text);
+
+    // Usuń książkę z bazy danych
+    using (var context = new LibraryContext())
+    {
+        var book = context.Books.Find(id);
+        context.Books.Remove(book);
+        context.SaveChanges();
+    }
+}
+
+private void ButtonEditBook_Click(object sender, RoutedEventArgs e)
+{
+    // Pobierz dane z pól tekstowych
+    int id = int.Parse(TextBoxBookId.Text);
+    string title = TextBoxTitle.Text;
+    string author = TextBoxAuthor.Text;
+    int year = int.Parse(TextBoxYear.Text);
+
+    // Edytuj książkę w bazie danych
+    using (var context = new LibraryContext())
+    {
+        var book = context.Books.Find(id);
+        book.Title = title;
+        book.Author = author;
+        book.Year = year;
+        context.SaveChanges();
+    }
+}
+
+private void ButtonAddUser_Click(object sender, RoutedEventArgs e)
+{
+    // Pobierz dane z pól tekstowych
+    string firstName = TextBoxFirstName.Text;
+    string lastName = TextBoxLastName.Text;
+    int age = int.Parse(TextBoxAge.Text);
+
+    // Utwórz nowego użytkownika
+    var user = new User { FirstName = firstName, LastName = lastName, Age = age };
+
+    // Dodaj użytkownika do bazy danych
+    using (var context = new LibraryContext())
+    {
+        context.Users.Add(user);
+        context.SaveChanges();
+    }
+}
+private void ButtonDeleteUser_Click(object sender, RoutedEventArgs e)
+{
+    // Pobierz ID użytkownika do usunięcia
+    int id = int.Parse(TextBoxUserId.Text);
+
+    // Usuń użytkownika z bazy danych
+    using (var context = new LibraryContext())
+    {
+        var user = context.Users.Find(id);
+        context.Users.Remove(user);
+        context.SaveChanges();
+    }
+}
+
+private void ButtonEditUser_Click(object sender, RoutedEventArgs e)
+{
+    // Pobierz dane z pól tekstowych
+    int id = int.Parse(TextBoxUserId.Text);
+    string firstName = TextBoxFirstName.Text;
+    string lastName = TextBoxLastName.Text;
+    int age = int.Parse(TextBoxAge.Text);
+
+    // Edytuj użytkownika w bazie danych
+    using (var context = new LibraryContext())
+    {
+        var user = context.Users.Find(id);
+        user.FirstName = firstName;
+        user.LastName = lastName;
+        user.Age = age;
+        context.SaveChanges();
+    }
+}
